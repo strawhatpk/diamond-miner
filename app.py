@@ -1,70 +1,388 @@
 import streamlit as st
-import re
 import pandas as pd
 
-st.title("💎 Diamond Miner")
+from log_parser import auto_parse
+from curator import curate_data
+from visualizer import show_visualizations
+from database import save_to_database
 
-# Upload option
-uploaded_file = st.file_uploader(
-    "Upload your log / txt / csv file",
-    type=["log", "txt", "csv"]
+from utils import (
+    calculate_health_score,
+    format_file_size,
+    safe_dataframe
 )
 
-# Local file option
-use_local = st.checkbox("Use local file (for large files)")
-file_path = st.text_input("Enter file path (for large file)")
+# -----------------------------------
+# PAGE CONFIG
+# -----------------------------------
+st.set_page_config(
+    page_title="Diamond Miner",
+    layout="wide"
+)
 
-# Process condition
-if uploaded_file or (use_local and file_path):
+# -----------------------------------
+# LOAD CSS
+# -----------------------------------
+def load_css():
 
-    # Decide file source
-    if use_local and file_path:
-        file = open(file_path, "rb")
-        st.success(f"Using local file: {file_path}")
+    with open("style.css") as f:
+
+        st.markdown(
+            f"<style>{f.read()}</style>",
+            unsafe_allow_html=True
+        )
+
+load_css()
+
+# -----------------------------------
+# TITLE
+# -----------------------------------
+st.title("💎 Diamond Miner")
+
+st.caption(
+    "Turning Raw Data into Structured Intelligence"
+)
+
+# -----------------------------------
+# SIDEBAR
+# -----------------------------------
+st.sidebar.title("💎 Diamond Miner")
+
+st.sidebar.markdown(
+    """
+    Supported Formats:
+    - LOG
+    - CSV
+    - JSON
+    - TXT
+    """
+)
+
+page = st.sidebar.radio(
+    "Navigation",
+    [
+        "Dashboard",
+        "Data Tables",
+        "Quarantine",
+        "Downloads",
+        "About"
+    ]
+)
+
+# -----------------------------------
+# ABOUT PAGE
+# -----------------------------------
+if page == "About":
+
+    st.markdown(
+        "<h2><u>About Diamond Miner :</u></h2>",
+        unsafe_allow_html=True
+    )
+
+    st.write(
+        """
+        Diamond Miner is a lightweight
+        multi-format data curation platform
+        designed to transform messy raw
+        datasets into structured,
+        analyzable intelligence.
+        """
+    )
+
+    st.markdown(
+        "<h3><u>Features :</u></h3>",
+        unsafe_allow_html=True
+    )
+
+    st.write("- Multi-format parsing")
+    st.write("- Automatic parser routing")
+    st.write("- Quarantine architecture")
+    st.write("- Privacy-safe curation")
+    st.write("- Interactive analytics")
+    st.write("- SQL database export")
+
+    st.markdown(
+        "<h3><u>Current Scope :</u></h3>",
+        unsafe_allow_html=True
+    )
+
+    st.write(
+        """
+        Optimized for lightweight and
+        medium-scale datasets on
+        low-end hardware systems.
+        """
+    )
+
+    st.markdown(
+        "<h3><u>Future Scope :</u></h3>",
+        unsafe_allow_html=True
+    )
+
+    st.write("- Android log parser")
+    st.write("- Excel support")
+    st.write("- XML support")
+    st.write("- Chunk-based processing")
+    st.write("- AI-assisted anomaly detection")
+
+# -----------------------------------
+# MAIN APP
+# -----------------------------------
+else:
+
+    # -----------------------------------
+    # FILE UPLOAD
+    # -----------------------------------
+    uploaded_file = st.file_uploader(
+        "Upload log / csv / json / txt file",
+        type=["log", "csv", "json", "txt"]
+    )
+
+    # -----------------------------------
+    # NO FILE MESSAGE
+    # -----------------------------------
+    if not uploaded_file:
+
+        st.info(
+            "Upload a supported file to begin data curation."
+        )
+
     else:
-        file = uploaded_file
-        st.success(f"File uploaded: {uploaded_file.name}")
 
-    # Regex pattern
-    log_pattern = r'(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?)\] "(?P<method>\S+) (?P<url>\S+) \S+" (?P<status>\d+) (?P<size>\S+)'
+        # --------------------------------
+        # FILE INFO
+        # --------------------------------
+        filename = uploaded_file.name
 
-    structured_data = []
-    quarantine_data = []
+        file_size = format_file_size(
+            uploaded_file.size
+        )
 
-    # Parse logs (limit for testing)
-    for i, line in enumerate(file):
-        if i >= 10000:
-            break
+        st.success(
+            f"File uploaded: {filename}"
+        )
 
-        line = line.decode("utf-8", errors="ignore").strip()
+        st.write(
+            f"File Size: {file_size}"
+        )
 
-        if not line:
-            continue
+        # --------------------------------
+        # AUTO PARSING
+        # --------------------------------
+        with st.spinner(
+            "Parsing and curating data..."
+        ):
 
-        match = re.search(log_pattern, line)
+            df_clean, df_trash = auto_parse(
+                uploaded_file,
+                filename
+            )
 
-        if match:
-            structured_data.append(match.groupdict())
-        else:
-            quarantine_data.append({
-                "raw_line": line,
-                "issue": "Format Mismatch"
-            })
+            df_clean = safe_dataframe(
+                df_clean
+            )
 
-    # Convert to DataFrame
-    df_clean = pd.DataFrame(structured_data)
+            df_trash = safe_dataframe(
+                df_trash
+            )
 
-    if quarantine_data:
-        df_trash = pd.DataFrame(quarantine_data)
-    else:
-        df_trash = pd.DataFrame(columns=["raw_line", "issue"])
+            # Curate data
+            df_clean = curate_data(
+                df_clean
+            )
 
-    # Display results
-    rows_to_show = st.slider("Select number of rows to display", 10, 500, 50)
-    st.subheader("💎 Diamonds (Parsed Data)")
-    st.dataframe(df_clean.head(rows_to_show))
+        # --------------------------------
+        # METRICS
+        # --------------------------------
+        total_records = (
+            len(df_clean) + len(df_trash)
+        )
 
-    st.subheader("🌑 Quarantine (Bad Data)")
-    st.dataframe(df_trash.head(rows_to_show))
+        health_score = calculate_health_score(
+            df_clean,
+            df_trash
+        )
 
-    st.success(f"Parsed {len(df_clean)} clean records, {len(df_trash)} quarantined")
+        # --------------------------------
+        # DASHBOARD PAGE
+        # --------------------------------
+        if page == "Dashboard":
+
+            st.header("📊 Dashboard")
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            col1.metric(
+                "Total Records",
+                total_records
+            )
+
+            col2.metric(
+                "Diamonds",
+                len(df_clean)
+            )
+
+            col3.metric(
+                "Quarantined",
+                len(df_trash)
+            )
+
+            col4.metric(
+                "Health Score",
+                f"{health_score:.2f}%"
+            )
+
+            show_visualizations(df_clean)
+            # --------------------------------
+            # PARSER CONFIDENCE
+            # --------------------------------
+            confidence = health_score
+
+            st.subheader("🧠 Parser Confidence")
+
+            st.progress(
+                int(confidence)
+            )
+
+            st.write(
+                f"Confidence Score: {confidence:.2f}%"
+            )
+
+        # --------------------------------
+        # DATA TABLES PAGE
+        # --------------------------------
+        elif page == "Data Tables":
+
+            st.header("💎 Curated Data")
+
+            rows_to_show = st.slider(
+                "Rows to display",
+                10,
+                500,
+                50
+            )
+
+            st.dataframe(
+                df_clean.head(rows_to_show),
+                use_container_width=True
+            )
+
+            st.write(
+                f"Showing {min(rows_to_show, len(df_clean))} rows"
+            )
+        # --------------------------------
+        # QUARANTINE PAGE
+        # --------------------------------
+        elif page == "Quarantine":
+
+            st.header("🌑 Quarantine Data")
+
+            rows_to_show = st.slider(
+                "Rows to display",
+                10,
+                500,
+                50
+            )
+
+            st.dataframe(
+                df_trash.head(rows_to_show),
+                use_container_width=True
+            )
+
+        # --------------------------------
+        # DOWNLOADS PAGE
+        # --------------------------------
+        elif page == "Downloads":
+
+            st.header("⬇ Downloads")
+
+            # -----------------------------
+            # SAVE DATABASE
+            # -----------------------------
+            db_file = save_to_database(
+                df_clean,
+                df_trash
+            )
+
+            # -----------------------------
+            # CLEAN DATA DOWNLOAD
+            # -----------------------------
+            if not df_clean.empty:
+
+                csv_data = df_clean.to_csv(
+                    index=False
+                )
+
+                st.download_button(
+                    label="⬇ Download Curated CSV",
+                    data=csv_data,
+                    file_name="diamond_dataset.csv",
+                    mime="text/csv"
+                )
+
+            else:
+
+                st.warning(
+                    "No curated data available."
+                )
+
+            # -----------------------------
+            # QUARANTINE DOWNLOAD
+            # -----------------------------
+            if not df_trash.empty:
+
+                quarantine_csv = df_trash.to_csv(
+                    index=False
+                )
+
+                st.download_button(
+                    label="⬇ Download Quarantine Data",
+                    data=quarantine_csv,
+                    file_name="quarantine_data.csv",
+                    mime="text/csv"
+                )
+
+            else:
+
+                st.info(
+                    "No quarantine data available."
+                )
+
+            # -----------------------------
+            # SQL DATABASE DOWNLOAD
+            # -----------------------------
+            try:
+
+                with open(db_file, "rb") as db:
+
+                    st.download_button(
+                        label="⬇ Download SQL Database",
+                        data=db,
+                        file_name="diamond_miner.db",
+                        mime="application/octet-stream"
+                    )
+
+            except Exception as e:
+
+                st.error(
+                    f"Database export failed: {e}"
+                )
+
+        # --------------------------------
+        # FINAL STATUS
+        # --------------------------------
+        st.success(
+            f"Processed {total_records} records successfully."
+        )
+        # -----------------------------------
+        # CUSTOM FOOTER
+        # -----------------------------------
+        st.markdown(
+            """
+            <div class="custom-footer">
+                💎 Diamond Miner |
+                Intelligent Data Curation Platform
+            </div>
+            """,
+            unsafe_allow_html=True
+        )

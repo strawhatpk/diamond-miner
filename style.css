@@ -1,0 +1,210 @@
+/* ---------------------------------
+GLOBAL BACKGROUND
+--------------------------------- */
+.stApp {
+    background: linear-gradient(
+        135deg,
+        #050816,
+        #0f172a,
+        #111827
+    );
+
+    color: #ffffff;
+}
+
+/* ---------------------------------
+SIDEBAR
+--------------------------------- */
+section[data-testid="stSidebar"] {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+
+    border-right: 2px solid #00ffff;
+
+    box-shadow:
+        0 0 25px rgba(0,255,255,0.25);
+}
+
+/* ---------------------------------
+HEADINGS
+--------------------------------- */
+h1, h2, h3 {
+    color: #00ffff !important;
+
+    text-shadow:
+        0 0 8px #00ffff,
+        0 0 18px #00ffff;
+}
+
+/* ---------------------------------
+TEXT
+--------------------------------- */
+p, label, div {
+    color: #e5e7eb;
+}
+
+/* ---------------------------------
+GLASSMORPHISM METRIC CARDS
+--------------------------------- */
+div[data-testid="metric-container"] {
+
+    background: rgba(17, 25, 40, 0.65);
+
+    border:
+        1px solid rgba(0,255,255,0.35);
+
+    backdrop-filter: blur(14px);
+
+    padding: 18px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 18px rgba(0,255,255,0.25);
+
+    transition: 0.3s;
+}
+
+/* Hover Glow */
+div[data-testid="metric-container"]:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 0 30px rgba(0,255,255,0.5);
+}
+
+/* ---------------------------------
+BUTTONS
+--------------------------------- */
+.stButton>button,
+.stDownloadButton>button {
+
+    background:
+        linear-gradient(
+            90deg,
+            #00ffff,
+            #8b5cf6
+        );
+
+    color: white;
+
+    border: none;
+
+    border-radius: 12px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 0 15px rgba(0,255,255,0.4);
+
+    transition: 0.3s;
+}
+
+/* Hover */
+.stButton>button:hover,
+.stDownloadButton>button:hover {
+
+    transform: scale(1.03);
+
+    box-shadow:
+        0 0 25px rgba(139,92,246,0.6);
+}
+
+/* ---------------------------------
+UPLOAD BOX
+--------------------------------- */
+[data-testid="stFileUploader"] {
+
+    border:
+        2px dashed #00ffff;
+
+    border-radius: 16px;
+
+    padding: 15px;
+
+    background:
+        rgba(17,25,40,0.5);
+
+    backdrop-filter: blur(10px);
+}
+
+/* ---------------------------------
+DATAFRAMES
+--------------------------------- */
+[data-testid="stDataFrame"] {
+
+    border:
+        1px solid rgba(0,255,255,0.4);
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 20px rgba(0,255,255,0.15);
+}
+
+/* ---------------------------------
+SUCCESS / INFO BOXES
+--------------------------------- */
+.stAlert {
+
+    border-radius: 12px;
+
+    border:
+        1px solid rgba(0,255,255,0.3);
+}
+
+/* ---------------------------------
+CYBERPUNK GLOW ANIMATION
+--------------------------------- */
+@keyframes glow {
+
+    0% {
+        text-shadow:
+            0 0 5px #00ffff;
+    }
+
+    50% {
+        text-shadow:
+            0 0 20px #00ffff,
+            0 0 35px #8b5cf6;
+    }
+
+    100% {
+        text-shadow:
+            0 0 5px #00ffff;
+    }
+}
+
+/* ---------------------------------
+ANIMATED TITLE
+--------------------------------- */
+h1 {
+
+    animation: glow 3s infinite;
+}
+
+/* ---------------------------------
+FOOTER
+--------------------------------- */
+footer {
+
+    visibility: hidden;
+}
+
+/* Custom Footer */
+.custom-footer {
+
+    text-align: center;
+
+    margin-top: 50px;
+
+    padding: 15px;
+
+    color: #9ca3af;
+
+    border-top:
+        1px solid rgba(0,255,255,0.2);
+}
