@@ -99,7 +99,39 @@ Large-scale chunk-based processing and advanced parser intelligence are planned 
 
 # 📸 Screenshots
 
+## Home Page
 
+![Home Page](https://drive.google.com/file/d/1d79JXU3m-dePCX0sO65FRv3hpNMpSHEA/view?usp=drivesdk)
+
+---
+
+## Dashboard
+
+![Dashboard](https://drive.google.com/file/d/1Z1WXRkwjofUdjkJDKQRLxAGQrAXrbgDy/view?usp=drivesdk)
+
+---
+
+## Curated Data Table
+
+![Curated Data](https://drive.google.com/file/d/1z9yvZRx-mkz6rzUlH1GR5kHiRRq7zo80/view?usp=drivesdk)
+
+---
+
+## Quarantine System
+
+![Quarantine](https://drive.google.com/file/d/1l2RJXnJV4m-i97M1Ky2MAx-TPrjdcjGV/view?usp=drivesdk)
+
+---
+
+## Downloads Section
+
+![Downloads](https://drive.google.com/file/d/1cXtiuG3ENSuci8TPpJlmRbefHXJu4jhC/view?usp=drivesdk)
+
+---
+
+## About Page
+
+![About Page](https://drive.google.com/file/d/1hucrPQMR4TzkIFQtl0C85TtibkALxgRu/view?usp=drivesdk)
 
 -----------------------------------------------------
 
