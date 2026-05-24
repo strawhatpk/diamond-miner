@@ -137,5 +137,5 @@ Large-scale chunk-based processing and advanced parser intelligence are planned 
 
 # 👨‍💻 Developer
 
-Pradeepta Kumar Sahoo 
+Pradeepta Kumar Sahoo  
 MSc Electronics & Telecommunication
