@@ -101,37 +101,37 @@ Large-scale chunk-based processing and advanced parser intelligence are planned 
 
 ## Home Page
 
-![Home Page](https://drive.google.com/file/d/1d79JXU3m-dePCX0sO65FRv3hpNMpSHEA/view?usp=drivesdk)
+![Home Page](https://drive.google.com/uc?export=view&id=1d79JXU3m-dePCX0sO65FRv3hpNMpSHEA)
 
 ---
 
 ## Dashboard
 
-![Dashboard](https://drive.google.com/file/d/1Z1WXRkwjofUdjkJDKQRLxAGQrAXrbgDy/view?usp=drivesdk)
+![Dashboard](https://drive.google.com/uc?export=view&id=1Z1WXRkwjofUdjkJDKQRLxAGQrAXrbgDy)
 
 ---
 
 ## Curated Data Table
 
-![Curated Data](https://drive.google.com/file/d/1z9yvZRx-mkz6rzUlH1GR5kHiRRq7zo80/view?usp=drivesdk)
+![Curated Data](https://drive.google.com/uc?export=view&id=1z9yvZRx-mkz6rzUlH1GR5kHiRRq7zo80)
 
 ---
 
 ## Quarantine System
 
-![Quarantine](https://drive.google.com/file/d/1l2RJXnJV4m-i97M1Ky2MAx-TPrjdcjGV/view?usp=drivesdk)
+![Quarantine](https://drive.google.com/uc?export=view&id=1l2RJXnJV4m-i97M1Ky2MAx-TPrjdcjGV)
 
 ---
 
 ## Downloads Section
 
-![Downloads](https://drive.google.com/file/d/1cXtiuG3ENSuci8TPpJlmRbefHXJu4jhC/view?usp=drivesdk)
+![Downloads](https://drive.google.com/uc?export=view&id=1cXtiuG3ENSuci8TPpJlmRbefHXJu4jhC)
 
 ---
 
 ## About Page
 
-![About Page](https://drive.google.com/file/d/1hucrPQMR4TzkIFQtl0C85TtibkALxgRu/view?usp=drivesdk)
+![About Page](https://drive.google.com/uc?export=view&id=1hucrPQMR4TzkIFQtl0C85TtibkALxgRu)
 
 -----------------------------------------------------
 
